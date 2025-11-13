@@ -58,3 +58,63 @@ EXCLUDED_PREFIXES (List of strings, e.g., ["Dynatrace", "Splunk"] to skip monito
 Rate Limiting: Include time.sleep to respect API limits.
 
 Deliverable: Provide the complete, production-ready Python script. Include comments explaining how the "Convergence/Shared Service" logic works.
+
+--------------------------------------
+
+
+The "Desktop GUI" Prompt (Tkinter + Threading)
+Role: Act as a Senior Python Desktop Application Developer.
+
+Objective: Convert the previously designed "Dynatrace Multi-Root Service Crawler" logic into a Standalone Desktop GUI Application.
+
+Constraint: Do NOT use web frameworks like Streamlit or Flask. Use the standard tkinter library so the application is lightweight and requires minimal dependencies.
+
+UI Layout Requirements:
+
+Main Window: Title: "Dynatrace Topology Mapper v1.0".
+
+Configuration Frame (Top or Left):
+
+Tenant URL: Text entry (Default: https://{id}.live.dynatrace.com).
+
+API Token: Text entry (Set show="*" to mask the token like a password field).
+
+Max Depth: Spinbox or Entry (Default: 5).
+
+Excluded Services: Entry (comma separated).
+
+Input Area (Middle):
+
+Label: "Root Services (Paste names, one per line)".
+
+Widget: ScrolledText (Multi-line text box) to paste the list of L5/Entry services.
+
+Action Area (Bottom):
+
+"Start Mapping" Button: This triggers the process.
+
+Progress Bar: To show activity (indeterminate mode is fine).
+
+Log Console: A read-only ScrolledText area to display real-time logs (e.g., "Scanning: Mobile-Gateway...", "Edge added: A -> B").
+
+Critical Technical Requirements (Must-Haves):
+
+Threading (Anti-Freezing):
+
+The crawling logic MUST run in a separate thread (threading.Thread).
+
+The GUI must not freeze while the API calls are happening.
+
+Thread-Safe Logging:
+
+Since the crawling runs in a background thread, it cannot directly write to the GUI. Implement a thread-safe way (e.g., using a queue or root.after callbacks) to update the "Log Console" text widget from the background thread.
+
+Error Handling:
+
+If the API Token is invalid or the URL is wrong, show a messagebox.showerror popup.
+
+Completion:
+
+When finished, show a messagebox.showinfo popup saying "Graph Saved!" and enable the user to open the file location.
+
+Deliverable: Provide the complete, single-file Python script (topology_gui.py) that includes the GUI setup, the threading logic, and the recursive crawler engine.
